@@ -4,11 +4,11 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/bridge/ProxyCoreRuntimeBridge.dart';
+import '../../common/components/DirectoryPathPicker.dart';
 import '../../../core/logging/ClientLogger.dart';
 import '../../../core/proxy/generated/CoreProxyClients.g.dart';
 import '../../../core/proxy/generated/CoreProxyModels.g.dart' as core_proxy;
@@ -687,7 +687,11 @@ class _AiSetupGuidePageState extends State<_AiSetupGuidePage>
 
   /// Lets the user select the runtime data directory.
   Future<void> _selectRuntimeRoot() async {
-    final path = await getDirectoryPath();
+    final path = await showDirectoryPathPicker(
+      context,
+      title: '选择运行时目录',
+      initialPath: _runtimeRootController.text,
+    );
     if (path == null || path.trim().isEmpty) {
       return;
     }
@@ -700,7 +704,11 @@ class _AiSetupGuidePageState extends State<_AiSetupGuidePage>
 
   /// Lets the user select the workspace data directory.
   Future<void> _selectWorkspaceRoot() async {
-    final path = await getDirectoryPath();
+    final path = await showDirectoryPathPicker(
+      context,
+      title: '选择工作区目录',
+      initialPath: _workspaceRootController.text,
+    );
     if (path == null || path.trim().isEmpty) {
       return;
     }

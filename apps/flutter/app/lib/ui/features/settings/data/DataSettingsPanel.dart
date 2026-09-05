@@ -6,6 +6,8 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../common/components/DirectoryPathPicker.dart';
+
 import '../../../../core/bridge/ProxyCoreRuntimeBridge.dart';
 import '../../../../core/logging/ClientLogger.dart';
 import '../../../../core/host/FileSaveService.dart';
@@ -1273,7 +1275,11 @@ class _StorageLocationEditDialogState
 
   /// Selects a new runtime root directory.
   Future<void> _selectRuntimeRoot() async {
-    final path = await getDirectoryPath();
+    final path = await showDirectoryPathPicker(
+      context,
+      title: '选择运行时目录',
+      initialPath: _runtimeRootController.text,
+    );
     if (path == null || path.trim().isEmpty) {
       return;
     }
@@ -1285,7 +1291,11 @@ class _StorageLocationEditDialogState
 
   /// Selects a new workspace root directory.
   Future<void> _selectWorkspaceRoot() async {
-    final path = await getDirectoryPath();
+    final path = await showDirectoryPathPicker(
+      context,
+      title: '选择工作区目录',
+      initialPath: _workspaceRootController.text,
+    );
     if (path == null || path.trim().isEmpty) {
       return;
     }
